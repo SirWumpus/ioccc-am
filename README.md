@@ -1,23 +1,22 @@
-NAME
-
-	am		Anthony's Make 
-
-
-SYNOPSIS
-
-	am <makefile> [target]
+am - Anthony's Make
+===================
 
 
-DESCRIPTION
+## SYNOPSIS
 
-AM is a programmer's tool to maintain, update, and regenerate groups
-of files and/or programs.  It is similar to MAKE as described by the
+	am makefile [target]
+
+
+## DESCRIPTION
+
+**am** is a programmer's tool to maintain, update, and regenerate groups
+of files and/or programs.  It is similar to **make** as described by the
 POSIX.2 draft standard 11.2, and this document parallels the draft
-in order to point out the subtle differences between AM and MAKE.
+in order to point out the subtle differences between **am** and **make**.
 
-The AM utility can be used as part of software development to update
+The **am** utility can be used as part of software development to update
 files that are derived from other files.  A typical case is one where
-object files are derived from the corresponding source files.  The AM
+object files are derived from the corresponding source files.  The **am**
 utility examines time relationships and updates those derived files
 (targets) that have modified times earlier than the modified times of
 the files (prerequisites) from which they are derived.  A description 
@@ -28,120 +27,120 @@ shall consist of a target, optional prerequisites, and optional
 commands to be executed when a prerequisite is newer than the target.
 
 
-OPTIONS
+## OPTIONS
 
 None.
 
 
-OPERANDS
+## OPERANDS
 
-makefile	This required argument, is a pathname of a description
+`makefile`	This required argument, is a pathname of a description
 		file, which is also referred to as the "makfile".  A
 		pathname of "-", shall *NOT* denote the standard input.
 
-target		This optional argument, is the first target to be 
-		processed.  If no target is specified, when AM is
-		processing the makefile, the first target that AM
+`target`	This optional argument, is the first target to be 
+		processed.  If no target is specified, when **am** is
+		processing the makefile, the first target that **am**
 		encounters shall be used.
 
 
-EXTERNAL INFLUENCES
+## EXTERNAL INFLUENCES
 
-STANDARD INPUT
+### STANDARD INPUT
 
 Not used.
 
 
-INPUT FILES
+### INPUT FILES
 
 The input file, otherwise known as the makefile, is a text file
 containing rules, macro definitions, and comments.
 
 
-ASYNCHRONOUS EVENTS
+### ASYNCHRONOUS EVENTS
 
-All traps are left to their default actions.  If AM receives a SIGHUP,
-SIGTERM, SIGINT, or SIGQUIT then AM will terminate as per request
+All traps are left to their default actions.  If **am** receives a `SIGHUP`,
+`SIGTERM`, `SIGINT`, or `SIGQUIT` then **am** will terminate as per request
 *WITHOUT* removing the current target.
 
 
-EXTERNAL EFFECTS
+## EXTERNAL EFFECTS
 
-STANDARD OUTPUT
+### STANDARD OUTPUT
 
-The AM utility shall write all commands to be executed to standard
-output unless the command is prefixed with an at-sign (@).  If AM is
+The **am** utility shall write all commands to be executed to standard
+output unless the command is prefixed with an at-sign `(@)`.  If **am** is
 invoked without any work needing to be done, it shall *NOT* write a
 message to standard output indicating that no action was taken. 
 
 
-STANDARD ERROR
+### STANDARD ERROR
 
 Standard error is used for diagnostic messages only.
 
 
-OUTPUT FILES
+### OUTPUT FILES
 
-None.  However, the utilities invoked by AM may create additional files.
+None.  However, the utilities invoked by **am** may create additional files.
 
 
-EXTENDED DESCRIPTION
+## EXTENDED DESCRIPTION
 
-The AM utility attempts to perform the actions required to ensure
+The **am** utility attempts to perform the actions required to ensure
 that the specified target(s) are up-to-date.  A target is considered
 out-of-date if it is older than any of its prerequisites or it does
-not exist.  The AM utility shall treat all prerequisites as targets
+not exist.  The **am** utility shall treat all prerequisites as targets
 themselves and recursively ensure that they are up-to-date, processing
-them in the order which they appear in the rule.  The AM utility shall
+them in the order which they appear in the rule.  The **am** utility shall
 use the modification times of files to determine if the corresponding
 targets are out-of-date.
 
-After AM has ensured that all of the prerequisites of a target are
+After **am** has ensured that all of the prerequisites of a target are
 up-to-date, and if the target is out-of-date, the commands associated
 with the target entry shall be executed.  If there are no commands
 listed for the target, the target shall be treated as up-to-date.
 
 
-MAKEFILE SYNTAX
+## MAKEFILE SYNTAX
 
 A makefile can contain rules, macro definitions, and comments.  If a
 macro is defined more than once, the value of the macro shall be the
-last one specified.  Comments start with a number-sign (#) and
-continue until an unescaped <newline> is reached.
+last one specified.  Comments start with a number-sign `(#)` and
+continue until an unescaped `<newline>` is reached.
 
-A backslash before a <newline> serves as a line continuation mark, and 
+A backslash before a `<newline>` serves as a line continuation mark, and 
 is used to create long-lines.   A line will continue to be extended until 
-an unescaped <newline> is reached.
+an unescaped `<newline>` is reached.
 
-When an escaped <newline> (one preceded by a backslash) is found anywhere
+When an escaped `<newline>` (one preceded by a backslash) is found anywhere
 in the makefile, it shall be replaced, along with any leading white 
 space on the following line, with a single <space>.  
 
 
-MAKEFILE EXECUTION
+## MAKEFILE EXECUTION
 
 Command lines shall be processed one at a time by writing the command
-line to standard output, unless prefixed with an at-sign (@), and
+line to standard output, unless prefixed with an at-sign `(@)`, and
 executing the command(s) in the line.  Commands shall be executed by
 passing the command line to the command interpreter via the system()
 function.
 
 The environment for the command being executed shall contain all of the
-variables in the environment of AM.  All macros are considered to be part 
+variables in the environment of **am**.  All macros are considered to be part 
 of the environment too.
 
-By default, when AM receives a non-zero status from the execution of a
+By default, when **am** receives a non-zero status from the execution of a
 command, it terminates with an error message to standard error.  If
-the command is prefixed by a hyphen (-) then any error found while
+the command is prefixed by a hyphen `(-)` then any error found while
 executing the command shall be ignored.
 
 Command lines can have one or more of the following prefixes: a hyphen
-(-) to ignore errors, an at-sign (@) to be silent, or a plus-sign (+)
+`(-)` to ignore errors, an at-sign `(@)` to be silent, or a plus-sign `(+)`
 if the command is always executed (this prefix is for compatibility with
-MAKE and is ignored).
+**make** and is ignored).
 
 
-TARGET RULES
+## TARGET RULES
 
 Target rules are formatted as follows:
 
@@ -159,7 +158,7 @@ are command lines to be executed to update the target(s).  The first
 line that does not begin with a <tab> shall begin a new entry.
 
 Target names can be any character supported by the host system,
-excluding <blank>s, <tab>s, <newline>s, and colons (:), which are used 
+excluding <blank>s, <tab>s, `<newline>`s, and colons `(:)`, which are used 
 for delimiters.
 
 For any given target there can be only one target rule.  The first
@@ -171,7 +170,7 @@ rule is defined.
 There are no special targets or inference rule support.  
 
 
-MACROS
+## MACROS
 
 Macro definitions are in the form:
 
@@ -179,15 +178,15 @@ Macro definitions are in the form:
 
 The macro named string1 is defined as having the value of string2,
 where string2 is defined as all characters, if any, after the equal
-sign up to an unescaped <newline>.  Any <blank>s immediately before or
+sign up to an unescaped `<newline>`.  Any <blank>s immediately before or
 after the equal sign shall be ignored.
 
 Subsequent appearances of $(string1) shall be replaced by string2.
 The parentheses are *NOT* optional if string1 is a single character.
-The macro $$ shall be replaced by the single character $.  
+The macro $$ shall be replaced by the single character `$`.  
 
 Macro names can be any character that the host system would allow in 
-the definition of environment variables, excluding parentheses, ( and ), 
+the definition of environment variables, excluding parentheses, `(` and `)`, 
 which are used for delimiters.
 
 Macros can appear anywhere in the makefile, except within other macro 
@@ -212,24 +211,24 @@ There are no internal macros supported.  The SHELL macro shall *NOT* be
 treated specially.
 
 
-EXIT STATUS
+## EXIT STATUS
 
-	0	Successful completion.
-	1	General error.
-	2	Usage error.
-	3	Failed to open makefile.
-	4	Failed to allocate memory.
+- 0	Successful completion.
+- 1	General error.
+- 2	Usage error.
+- 3	Failed to open makefile.
+- 4	Failed to allocate memory.
 
 
-INSTALLATION
+## INSTALLATION
 
-AM can be built on any system providing at least K&R C.  It has been 
+**am** can be built on any system providing at least K&R C.  It has been 
 tested on 
 
-	o  SunOS with GCC
-	o  ATARI Mega ST with Sozobon C
-	o  PC clone with Turbo C
-	o  Interactive UNIX System V/386 release 3.2
+*  SunOS with GCC
+*  ATARI Mega ST with Sozobon C
+*  PC clone with Turbo C
+*  Interactive UNIX System V/386 release 3.2
 
 For all machines, the compile command line should be
 
@@ -251,22 +250,14 @@ defined and so it might be necessary to remove the include directive for
 it. 
 
 
-REFERENCES
+## REFERENCES
 
-[Mil87]	Webb Miller, "A Software Tools Sampler", Prentice Hall, 87
-	ISBN 0-13-822305-X, chapter 2
+* Webb Miller, "A Software Tools Sampler", Prentice Hall, 87
+  ISBN 0-13-822305-X, chapter 2
 
-[POSIX]	POSIX.2 draft 11.2 MAKE
-
-
-FILES
-
-am.c		Obfuscated source
-am.doc		Manual for AM
-amam.c		Unobfuscated source
-test.mk		Test makefile
+* POSIX.2 draft 11.2 **make**
 
 
-BUGS
+## BUGS
 
-Unknown as of 20 March 92.
+Unknown as of 20 March 1992.
