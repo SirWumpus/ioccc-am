@@ -11,20 +11,20 @@ am - Anthony's Make
 
 **am** is a programmer's tool to maintain, update, and regenerate groups
 of files and/or programs.  It is similar to **make** as described by the
-POSIX.2 draft standard 11.2, and this document parallels the draft
-in order to point out the subtle differences between **am** and **make**.
+POSIX.2 draft standard 11.2, and this document parallels the draft in
+order to point out the subtle differences between **am** and **make**.
 
 The **am** utility can be used as part of software development to update
 files that are derived from other files.  A typical case is one where
-object files are derived from the corresponding source files.  The **am**
-utility examines time relationships and updates those derived files
-(targets) that have modified times earlier than the modified times of
-the files (prerequisites) from which they are derived.  A description 
-file ("makefile") contains a description of the relationships between 
+object files are derived from the corresponding source files.  The
+**am** utility examines time relationships and updates those derived
+files (targets) that have modified times earlier than the modified times
+of the files (prerequisites) from which they are derived.  A description
+file ("makefile") contains a description of the relationships between
 files, and the commands that must be executed to update the targets to
-reflect changes in their prerequisites.  Each specification, or rule, 
-shall consist of a target, optional prerequisites, and optional 
-commands to be executed when a prerequisite is newer than the target.
+reflect changes in their prerequisites.  Each specification, or rule,
+shall consist of a target, optional prerequisites, and optional commands
+to be executed when a prerequisite is newer than the target.
 
 
 ## OPTIONS
@@ -59,9 +59,9 @@ containing rules, macro definitions, and comments.
 
 ### ASYNCHRONOUS EVENTS
 
-All traps are left to their default actions.  If **am** receives a `SIGHUP`,
-`SIGTERM`, `SIGINT`, or `SIGQUIT` then **am** will terminate as per request
-*WITHOUT* removing the current target.
+All traps are left to their default actions.  If **am** receives a
+`SIGHUP`, `SIGTERM`, `SIGINT`, or `SIGQUIT` then **am** will terminate
+as per request *WITHOUT* removing the current target.
 
 
 ## EXTERNAL EFFECTS
@@ -69,9 +69,9 @@ All traps are left to their default actions.  If **am** receives a `SIGHUP`,
 ### STANDARD OUTPUT
 
 The **am** utility shall write all commands to be executed to standard
-output unless the command is prefixed with an at-sign `(@)`.  If **am** is
-invoked without any work needing to be done, it shall *NOT* write a
-message to standard output indicating that no action was taken. 
+output unless the command is prefixed with an at-sign `(@)`.  If **am**
+is invoked without any work needing to be done, it shall *NOT* write a
+message to standard output indicating that no action was taken.
 
 
 ### STANDARD ERROR
@@ -81,19 +81,20 @@ Standard error is used for diagnostic messages only.
 
 ### OUTPUT FILES
 
-None.  However, the utilities invoked by **am** may create additional files.
+None.  However, the utilities invoked by **am** may create additional
+files.
 
 
 ## EXTENDED DESCRIPTION
 
 The **am** utility attempts to perform the actions required to ensure
 that the specified target(s) are up-to-date.  A target is considered
-out-of-date if it is older than any of its prerequisites or it does
-not exist.  The **am** utility shall treat all prerequisites as targets
+out-of-date if it is older than any of its prerequisites or it does not
+exist.  The **am** utility shall treat all prerequisites as targets
 themselves and recursively ensure that they are up-to-date, processing
-them in the order which they appear in the rule.  The **am** utility shall
-use the modification times of files to determine if the corresponding
-targets are out-of-date.
+them in the order which they appear in the rule.  The **am** utility
+shall use the modification times of files to determine if the
+corresponding targets are out-of-date.
 
 After **am** has ensured that all of the prerequisites of a target are
 up-to-date, and if the target is out-of-date, the commands associated
@@ -108,13 +109,13 @@ macro is defined more than once, the value of the macro shall be the
 last one specified.  Comments start with a number-sign `(#)` and
 continue until an unescaped `<newline>` is reached.
 
-A backslash before a `<newline>` serves as a line continuation mark, and 
-is used to create long-lines.   A line will continue to be extended until 
-an unescaped `<newline>` is reached.
+A backslash before a `<newline>` serves as a line continuation mark, and
+is used to create long-lines.   A line will continue to be extended
+until an unescaped `<newline>` is reached.
 
-When an escaped `<newline>` (one preceded by a backslash) is found anywhere
-in the makefile, it shall be replaced, along with any leading white 
-space on the following line, with a single <space>.  
+When an escaped `<newline>` (one preceded by a backslash) is found
+anywhere in the makefile, it shall be replaced, along with any leading
+white space on the following line, with a single <space>.
 
 
 ## MAKEFILE EXECUTION
@@ -126,18 +127,18 @@ passing the command line to the command interpreter via the system()
 function.
 
 The environment for the command being executed shall contain all of the
-variables in the environment of **am**.  All macros are considered to be part 
-of the environment too.
+variables in the environment of **am**.  All macros are considered to be
+part of the environment too.
 
-By default, when **am** receives a non-zero status from the execution of a
-command, it terminates with an error message to standard error.  If
+By default, when **am** receives a non-zero status from the execution of
+a command, it terminates with an error message to standard error.  If
 the command is prefixed by a hyphen `(-)` then any error found while
 executing the command shall be ignored.
 
 Command lines can have one or more of the following prefixes: a hyphen
-`(-)` to ignore errors, an at-sign `(@)` to be silent, or a plus-sign `(+)`
-if the command is always executed (this prefix is for compatibility with
-**make** and is ignored).
+`(-)` to ignore errors, an at-sign `(@)` to be silent, or a plus-sign
+`(+)` if the command is always executed (this prefix is for
+compatibility with **make** and is ignored).
 
 
 ## TARGET RULES
@@ -152,22 +153,22 @@ Target rules are formatted as follows:
 	(line that does not begin with <tab>)
 
 Target entries are specified by a <blank>-separated, non-null list of
-targets, then a colon, then a <blank>-separated, possibly empty list
-of prerequisites.  All following lines, if any, that begin with a <tab>,
-are command lines to be executed to update the target(s).  The first
-line that does not begin with a <tab> shall begin a new entry.
+targets, then a colon, then a `<blank>`-separated, possibly empty list
+of prerequisites.  All following lines, if any, that begin with a
+`<tab>`, are command lines to be executed to update the target(s).  The
+first line that does not begin with a `<tab>` shall begin a new entry.
 
 Target names can be any character supported by the host system,
-excluding <blank>s, <tab>s, `<newline>`s, and colons `(:)`, which are used 
-for delimiters.
+excluding `<blank>s`, `<tab>s`, `<newline>`s, and colons `(:)`, which
+are used for delimiters.
 
 For any given target there can be only one target rule.  The first
 occurrence of a target in a makefile shall be used.  All subsequent
-rules for the same target are ignored.  There is *no* support for 
-adding prerequisites to a target's prerequisite list once a target
-rule is defined.
+rules for the same target are ignored.  There is *no* support for adding
+prerequisites to a target's prerequisite list once a target rule is
+defined.
 
-There are no special targets or inference rule support.  
+There are no special targets or inference rule support.
 
 
 ## MACROS
@@ -176,29 +177,29 @@ Macro definitions are in the form:
 
 	string1 = [string2]
 
-The macro named string1 is defined as having the value of string2,
-where string2 is defined as all characters, if any, after the equal
-sign up to an unescaped `<newline>`.  Any <blank>s immediately before or
-after the equal sign shall be ignored.
+The macro named string1 is defined as having the value of string2, where
+string2 is defined as all characters, if any, after the equal sign up to
+an unescaped `<newline>`.  Any `<blank>s` immediately before or after
+the equal sign shall be ignored.
 
-Subsequent appearances of $(string1) shall be replaced by string2.
-The parentheses are *NOT* optional if string1 is a single character.
-The macro $$ shall be replaced by the single character `$`.  
+Subsequent appearances of $(string1) shall be replaced by string2. The
+parentheses are *NOT* optional if string1 is a single character. The
+macro `$$` shall be replaced by the single character `$`.
 
-Macro names can be any character that the host system would allow in 
-the definition of environment variables, excluding parentheses, `(` and `)`, 
+Macro names can be any character that the host system would allow in the
+definition of environment variables, excluding parentheses, `(` and `)`,
 which are used for delimiters.
 
-Macros can appear anywhere in the makefile, except within other macro 
-references (ie. no nesting).  Macros in target and command lines shall 
-be evaluated when the line is read.  Macros in macro definition lines 
-shall be evaluated *IMMEDIATELY*.  A macro that has not been defined 
-shall evaluate to a null string without causing any error condition.  
+Macros can appear anywhere in the makefile, except within other macro
+references (ie. no nesting).  Macros in target and command lines shall
+be evaluated when the line is read.  Macros in macro definition lines
+shall be evaluated *IMMEDIATELY*.  A macro that has not been defined
+shall evaluate to a null string without causing any error condition.
 
-If a macro is defined more than once, the value of the macro shall be the 
-last one specified prior to it being referenced.
+If a macro is defined more than once, the value of the macro shall be
+the last one specified prior to it being referenced.
 
-Macro assignments shall be accepted from the sources listed below, in 
+Macro assignments shall be accepted from the sources listed below, in
 the order shown.  If a macro name already exists at the time it is being
 processed, the newer definition shall replace the existing definition.
 
