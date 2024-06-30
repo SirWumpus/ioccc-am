@@ -1,0 +1,15 @@
+*.tws
+config.log
+config.status
+am
+am-c89
+am-alt
+prog*
+a.out
+a.txt
+*.core
+*.cdb
+*.exe
+*.obj
+*.o
+*.i
