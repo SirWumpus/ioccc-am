@@ -1,6 +1,15 @@
 #
-#	Test makefile for AM
+#   Build & Test makefile for AM
 #
+#   $ make -ftest.mk build
+#   $ touch am.c
+#   $ ./am test.mk
+#   $ ./am test.mk distclean
+#
+
+CC		= cc
+CFLAGS		=
+PROG		= am
 
 #
 #  Allow for empty macros.
@@ -19,7 +28,9 @@ TEXT_5	=	tabs boths sides
 #
 #  Test psuedo targets.
 #
-all : print_macros repeat redefine many flags multiple split errors done
+#  This must be the first test target.  See clean: build: and $(PROG): below.
+#
+all : build print_macros repeat redefine many flags multiple split errors done
 
 print_macros : empty t1 t2 t3 t4 t5 t.all
 
@@ -48,7 +59,7 @@ t.all :
 	echo $(TEXT_1) $(TEXT_2) $(TEXT_3) $(TEXT_4) $(TEXT_5)
 
 #
-#  Test redefinition of macros.  AM allows redefinition and 
+#  Test redefinition of macros.  AM allows redefinition and
 #  evaluates macros immediately.
 #
 TEXT_1	=text number 1
@@ -59,7 +70,7 @@ TEXT_3	= test dollar macro '$$'
 TEXT_4	= test dollar again "$$(TEXT_1)"
 TEXT_5	=	imbeded macro '$(TEXT_1)'
 
-redefine : r1 r2 r3 r4 r5 
+redefine : r1 r2 r3 r4 r5
 
 r1 :
 	echo TEXT_1='$(TEXT_1)'
@@ -85,28 +96,28 @@ repeat.a : t2 t1
 
 
 #
-#  Target with multi-line receipe.
+#  Target with multi-line recipe.
 #
 many : leaf.1 leaf.2
-	echo Execute receipe with multiple commands.
+	echo Execute recipe with multiple commands.
 	ls -1 leaf.*
-	echo Last line of receipe for target 'many'.
+	echo Last line of recipe for target 'many'.
 
 leaf.1 :
 	touch leaf.1
 
-leaf.2 : 
+leaf.2 :
 	touch leaf.2
 
 
 #
-#  Test receipe line flags.
+#  Test recipe line flags.
 #
 flags : silence ignore always combination
 
 #  Command not displayed before execution.
 silence :
-	echo You should not see the 'ls' command printed. 
+	echo You should not see the 'ls' command printed.
 	@ls leaf.*
 
 #  Ignore errors from command.
@@ -132,7 +143,7 @@ multiple : node.2 node.5
 node.1 node.2 node.3 : leaf.1 leaf.2
 	touch node.1 node.2 node.3
 
-node.4 node.5 : node.2 leaf.3 
+node.4 node.5 : node.2 leaf.3
 	touch node.4 node.5
 
 leaf.3 :
@@ -157,7 +168,7 @@ split.tar \
 leaf.4 \
 leaf.5 :
 	echo Test target list split across lines
-	touch leaf.4 leaf.5 
+	touch leaf.4 leaf.5
 
 #  Command lines split across lines.
 split.cmd:
@@ -170,17 +181,17 @@ split.cmd:
 #  Test AM error reports and exit statuses.
 #
 errors:
-	-am test.mk error.1
-	-am test.mk error.2
-	-am test.mk error.3
-	
+	-./$(PROG) test.mk error.1
+	-./$(PROG) test.mk error.2
+	-./$(PROG) test.mk error.3
+
 #  Target that does not exist, has no dependencies, and no commands.
 error.1:
 
 #  Target where dependency does not exist.
 error.2: unknown
 
-#  Receipe command causes error.
+#  Recipe command causes error.
 error.3: t1 fail t2
 fail:
 	ls -l unknown
@@ -189,8 +200,19 @@ fail:
 #
 #
 #
-done:
+done: clean
 	echo AM Test Complete
 
+#
+# AM can build itself.
+#
+build: $(PROG)
+
+$(PROG): am.c
+	$(CC) $(CFLAGS) -o $(PROG) am.c
+
 clean:
-	rm leaf.* node.*
+	-rm leaf.* node.*
+
+distclean: clean
+	-rm ./$(PROG)
